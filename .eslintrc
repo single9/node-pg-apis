@@ -1,0 +1,39 @@
+{
+    "env": {
+        "node": true,
+        "commonjs": true,
+        "es6": true,
+        "mocha": true
+    },
+    "globals": {
+        "window": true,
+        "document": true,
+        "XMLHttpRequest": true,
+        "CONFIG_FILE_PATH": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 8
+    },
+    "rules": {
+        "indent": [
+            "off",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "off",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": "warn",
+        "no-console": "off"
+    }
+}
