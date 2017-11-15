@@ -1,6 +1,8 @@
 class Select {
     constructor (db, table, statement) {
 
+        this.queryValues = undefined;
+
         switch (typeof(statement)) {
             case 'object':
                 this.queryString = 'SELECT ' + statement.text + ' FROM ' + table;
@@ -15,9 +17,14 @@ class Select {
         }
         
         this.run = async () => {
-            const res = await db.query(this.queryString);
+            const res = await db.query(this.queryString, this.queryValues);
             return res;
         };
+    }
+
+    values (values) {
+        this.queryValues = values;
+        return this;
     }
 
     where (conditions) {
