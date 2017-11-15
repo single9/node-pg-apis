@@ -38,7 +38,27 @@ class Update {
      * @memberof Update
      */
     set (set) {
-        if (set.search(',') < 0) {
+
+        if (typeof set === 'object') {
+            let argv = Object.keys(set);
+            let valuesIndex = [];
+            let values = [];
+
+            for (let i=0, len=argv.length; i<len; i++) {
+                let key = argv[i];
+
+                if (set[key] === undefined || set[key] === '') {
+                    continue;
+                }
+                
+                valuesIndex.push('$'+(valuesIndex.length+1));
+                values[i] = set[key];
+            }
+
+            this.queryString += ' SET (' + argv.join(',') + ') = ' + ' (' + valuesIndex.join(',') + ')';
+            this.queryValues = values;
+
+        } else if (set.search(',') < 0) {
             this.queryString += ' SET ' + set;
         } else {
             this.queryString += ' SET (' + set + ')';
@@ -73,8 +93,18 @@ class Update {
      * @param {string} conditions SQL conditions
      * @memberof Update
      */
-    where (conditions) {
-        this.queryString += ' WHERE ' + conditions;
+    where (conditions, values) {
+
+        let whereString = ' WHERE ';
+
+        if (values) {
+            whereString += doSpecialStrReplace(conditions, this.queryValues.length + 1);
+            this.queryValues = this.queryValues.concat(values);
+        } else {
+            whereString += conditions;
+        }
+
+        this.queryString += whereString;
         
         return this;
     }
@@ -90,6 +120,21 @@ class Update {
 
         return this;
     }
+}
+
+function doSpecialStrReplace(str, newvalue) 
+{
+    if (newvalue < 1) newvalue = 1;
+
+    let mark = '$';
+    let index = str.indexOf(mark);
+
+    if (index < 0) {
+    return str;
+    }
+
+    return str.slice(0, index + 1).replace(mark, mark + (newvalue++)) +
+    doSpecialStrReplace(str.slice(index + 1), newvalue);
 }
 
 module.exports = Update;
