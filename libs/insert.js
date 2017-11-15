@@ -1,13 +1,17 @@
-class Insert {
+const Commons = require('./commons.js');
+
+class Insert  extends Commons {
     constructor (db, table, statement) {
+        super();
+        
         this.queryString = 'INSERT INTO ' + table;
         this.queryValues = [];
 
         switch (typeof(statement)) {
             case 'object':
-                Object.keys(statement).forEach((val) => {
-                    this[val](statement[val]);
-                });
+                var d = this.queryTextComposer(statement);
+                this.queryString += ' ('+d.columns+') VALUES ('+d.argvs+')';
+                this.queryValues = d.values;
                 break;
             case 'string':
                 this.queryString += ' ' + statement;

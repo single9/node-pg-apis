@@ -7,6 +7,14 @@ table.insert()
      .run()
      .then(d => {
          console.log(d.rows);
-         table.end();
+        //  table.end();
      });
 
+table.insert({
+    state: 'info',
+    content: {test: 'qaq'},
+    source: 'test'
+}).returning(['id']).run().then(d => {
+    console.log(d.rows);
+    table.end();
+});
