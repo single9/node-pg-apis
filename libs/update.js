@@ -44,19 +44,21 @@ class Update extends Commons {
     set (set) {
 
         if (typeof set === 'object') {
-            let argv = Object.keys(set);
+            let keys = Object.keys(set);
+            let argv = [];
             let valuesIndex = [];
             let values = [];
 
-            for (let i=0, len=argv.length; i<len; i++) {
-                let key = argv[i];
+            for (let i=0, len=keys.length; i<len; i++) {
+                let key = keys[i];
 
                 if (set[key] === undefined || set[key] === '') {
                     continue;
                 }
 
                 valuesIndex.push('$'+(valuesIndex.length+1));
-                values[i] = set[key];
+                argv.push(key);
+                values.push(set[key]);
             }
 
             if (argv.length === 1) {
@@ -65,7 +67,7 @@ class Update extends Commons {
                 this.queryString += ' SET (' + argv.join(',') + ') = ' + ' (' + valuesIndex.join(',') + ')';
             }
             
-            this.queryValues = values;
+            this.queryValues = this.queryValues.concat(values);
 
         } else if (set.search(',') < 0) {
             this.queryString += ' SET ' + set;
