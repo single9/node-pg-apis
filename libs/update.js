@@ -50,12 +50,17 @@ class Update {
                 if (set[key] === undefined || set[key] === '') {
                     continue;
                 }
-                
+
                 valuesIndex.push('$'+(valuesIndex.length+1));
                 values[i] = set[key];
             }
 
-            this.queryString += ' SET (' + argv.join(',') + ') = ' + ' (' + valuesIndex.join(',') + ')';
+            if (argv.length === 1) {
+                this.queryString += ' SET ' + argv + ' = ' + ' ' + valuesIndex;
+            } else {
+                this.queryString += ' SET (' + argv.join(',') + ') = ' + ' (' + valuesIndex.join(',') + ')';
+            }
+            
             this.queryValues = values;
 
         } else if (set.search(',') < 0) {

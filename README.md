@@ -95,6 +95,19 @@ Usage
     await table.end();
 
 
+
+    const res = await table.select('id').run();
+    const update = await table.update({
+                        set: {
+                            state: 'info'
+                        }
+                    }).where('id = $', [res.rows[res.rowCount-1].id]).run();
+
+    console.log(update);
+
+    await table.end();
+
+
 ### delete
 
 **Chain**
