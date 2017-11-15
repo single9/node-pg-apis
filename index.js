@@ -47,15 +47,6 @@ function Methods (db, target) {
         },
 
         /**
-         * Query
-         * 
-         * @param {any} argv 
-         */
-        async query (...argv) {
-            return db.query(...argv);
-        },
-
-        /**
          * Transactions
          * 
          * @param {function(Methods} fn callback
@@ -141,6 +132,15 @@ module.exports = function (dbSet) {
                     return Methods(db, target);
                 }
             };
-        }
+        },
+
+        /**
+         * Query
+         * 
+         * @param {any} argv 
+         */
+        query (...argv) {
+            return db.query(...argv);
+        },
     };
 };
