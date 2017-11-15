@@ -1,6 +1,6 @@
-const Composer = require('./composer.js');
+const Commons = require('./commons.js');
 
-class Update extends Composer {
+class Update extends Commons {
     /**
      * Creates an instance of Update.
      * @param {any} db 

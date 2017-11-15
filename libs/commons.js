@@ -1,9 +1,9 @@
-class Composer {
+class Commons {
     queryTextComposer (data) {
-        
-        // debug('- queryTextComposer --------------------');
     
         let columns = "", columnsArr = [], argvs = [], values = [], keys = [];
+
+        keys = Object.keys(data);
     
         for (let i=0; i<keys.length; i++) {
           let key = keys[i];
@@ -26,8 +26,6 @@ class Composer {
           values
         };
     
-        // debug(result);
-    
         return result;
     }
 
@@ -46,4 +44,4 @@ class Composer {
     }
 }
 
-module.exports = Composer;
+module.exports = Commons;

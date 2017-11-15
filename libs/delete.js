@@ -1,5 +1,8 @@
-class Delete {
+const Commons = require('./commons.js');
+
+class Delete extends Commons {
     constructor (db, table, statement) {
+        super ();
         this.queryString = 'DELETE FROM ' + table;
         this.queryValues = [];
 
@@ -25,8 +28,22 @@ class Delete {
     }
 
     where (conditions) {
-        this.queryString += ' WHERE ' + conditions;
+
+        if (typeof conditions === 'object') {
+            let d = this.queryTextComposer(conditions);
+
+            this.queryString += ' WHERE (' + d.columns + ') = (' + d.argvs +')';
+            this.queryValues = this.queryValues.concat(d.values);
+        } else {
+            this.queryString += ' WHERE ' + conditions;
+        }
         
+        return this;
+    }
+
+    returning (returning) {
+        this.queryString += ' RETURNING ' + returning.join(',');
+
         return this;
     }
 
