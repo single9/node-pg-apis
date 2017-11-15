@@ -1,6 +1,6 @@
-const {doSpecialStrReplace} = require('./composer.js');
+const Composer = require('./composer.js');
 
-class Update {
+class Update extends Composer {
     /**
      * Creates an instance of Update.
      * @param {any} db 
@@ -9,6 +9,8 @@ class Update {
      * @memberof Update
      */
     constructor (db, table, statement) {
+        super();
+
         this.queryString = 'UPDATE ' + table;
         this.queryValues = [];
 
@@ -105,7 +107,7 @@ class Update {
         let whereString = ' WHERE ';
 
         if (values) {
-            whereString += doSpecialStrReplace(conditions, this.queryValues.length + 1);
+            whereString += this.doSpecialStrReplace(conditions, this.queryValues.length + 1);
             this.queryValues = this.queryValues.concat(values);
         } else {
             whereString += conditions;
