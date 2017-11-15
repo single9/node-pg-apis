@@ -1,3 +1,5 @@
+const {doSpecialStrReplace} = require('./composer.js');
+
 class Update {
     /**
      * Creates an instance of Update.
@@ -125,21 +127,6 @@ class Update {
 
         return this;
     }
-}
-
-function doSpecialStrReplace(str, newvalue) 
-{
-    if (newvalue < 1) newvalue = 1;
-
-    let mark = '$';
-    let index = str.indexOf(mark);
-
-    if (index < 0) {
-    return str;
-    }
-
-    return str.slice(0, index + 1).replace(mark, mark + (newvalue++)) +
-    doSpecialStrReplace(str.slice(index + 1), newvalue);
 }
 
 module.exports = Update;
