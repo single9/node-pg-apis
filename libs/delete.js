@@ -1,8 +1,22 @@
 const Commons = require('./commons.js');
 
+/**
+ * Delete
+ * 
+ * @class Delete
+ * @extends {Commons}
+ */
 class Delete extends Commons {
-    constructor (db, table, statement) {
-        super ();
+    /**
+     * Creates an instance of Delete.
+     * @param {object} db 
+     * @param {string} table 
+     * @param {any} statement 
+     * @memberof Delete
+     */
+    constructor (db, table, statement) {    
+        super (db);
+
         this.queryString = 'DELETE FROM ' + table;
         this.queryValues = [];
 
@@ -16,15 +30,6 @@ class Delete extends Commons {
                 this.queryString += ' ' + statement;
                 break;
         }
-        
-        this.run = async () => {
-            const res = await db.query({
-                text: this.queryString, 
-                values: this.queryValues
-            });
-
-            return res;
-        };
     }
 
     where (conditions) {
@@ -38,12 +43,6 @@ class Delete extends Commons {
             this.queryString += ' WHERE ' + conditions;
         }
         
-        return this;
-    }
-
-    returning (returning) {
-        this.queryString += ' RETURNING ' + returning.join(',');
-
         return this;
     }
 

@@ -1,7 +1,22 @@
-class Select {
-    constructor (db, table, statement) {
+const Commons = require('./commons.js');
 
-        this.queryValues = undefined;
+/**
+ * Select
+ * 
+ * @class Select
+ * @extends {Commons}
+ */
+class Select extends Commons {
+
+    /**
+     * Creates an instance of Delete.
+     * @param {object} db 
+     * @param {string} table 
+     * @param {any} statement 
+     * @memberof Delete
+     */
+    constructor (db, table, statement) {
+        super(db);
 
         switch (typeof(statement)) {
             case 'object':
@@ -15,11 +30,6 @@ class Select {
                 this.queryString = 'SELECT ' + statement + ' FROM ' + table;
                 break;
         }
-        
-        this.run = async () => {
-            const res = await db.query(this.queryString, this.queryValues);
-            return res;
-        };
     }
 
     values (values) {

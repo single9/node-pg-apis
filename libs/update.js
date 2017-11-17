@@ -1,6 +1,13 @@
 const Commons = require('./commons.js');
 
+/**
+ * Update
+ * 
+ * @class Update
+ * @extends {Commons}
+ */
 class Update extends Commons {
+
     /**
      * Creates an instance of Update.
      * @param {any} db 
@@ -9,7 +16,7 @@ class Update extends Commons {
      * @memberof Update
      */
     constructor (db, table, statement) {
-        super();
+        super(db);
 
         this.queryString = 'UPDATE ' + table;
         this.queryValues = [];
@@ -24,15 +31,6 @@ class Update extends Commons {
                 this.queryString += ' ' + statement;
                 break;
         }
-
-        this.run = async () => {
-            const res = await db.query({
-                text: this.queryString, 
-                values: this.queryValues
-            });
-
-            return res;
-        };
     }
 
     /**
@@ -117,18 +115,6 @@ class Update extends Commons {
 
         this.queryString += whereString;
         
-        return this;
-    }
-
-    /**
-     * Set insert returning columns.
-     * 
-     * @param {array} returnning 
-     * @memberof Insert
-     */
-    returning (returning) {
-        this.queryString += ' RETURNING ' + returning.join(',');
-
         return this;
     }
 }

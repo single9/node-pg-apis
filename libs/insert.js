@@ -1,8 +1,22 @@
 const Commons = require('./commons.js');
 
-class Insert  extends Commons {
+/**
+ * Insert
+ * 
+ * @class Insert
+ * @extends {Commons}
+ */
+class Insert extends Commons {
+
+    /**
+     * Creates an instance of Delete.
+     * @param {object} db 
+     * @param {string} table 
+     * @param {any} statement 
+     * @memberof Delete
+     */
     constructor (db, table, statement) {
-        super();
+        super(db);
         
         this.queryString = 'INSERT INTO ' + table;
         this.queryValues = [];
@@ -17,15 +31,6 @@ class Insert  extends Commons {
                 this.queryString += ' ' + statement;
                 break;
         }
-        
-        this.run = async () => {
-            const res = await db.query({
-                text: this.queryString, 
-                values: this.queryValues
-            });
-
-            return res;
-        };
     }
 
     /**
@@ -59,19 +64,6 @@ class Insert  extends Commons {
 
         return this;
     }
-
-    /**
-     * Set insert returning columns.
-     * 
-     * @param {array} returnning 
-     * @memberof Insert
-     */
-    returning (returning) {
-        this.queryString += ' RETURNING ' + returning.join(',');
-
-        return this;
-    }
-
 
 }
 
