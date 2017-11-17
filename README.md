@@ -34,10 +34,12 @@ Usage
 **Object**
 
     const res = await table.insert({
-                            columns: 'state, content, source',
-                            values: ['info', {test: 'test-yooo'}, 'test'],
-                            returning: ['id']
-                        }).run();
+                            state: 'info',
+                            content: {test: 'qaq'},
+                            source: 'test'
+                        })
+                        .returning(['id'])
+                        .run();
 
     console.log(res.rows);
 
