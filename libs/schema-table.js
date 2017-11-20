@@ -31,7 +31,13 @@ const Methods = require('./methods.js');
  */
 module.exports = function (dbSet) {
 
-    let db = new DBConnector(dbSet);
+    let db;
+
+    if (dbSet instanceof DBConnector) {
+        db = dbSet;
+    } else {
+        db = new DBConnector(dbSet);
+    }
     
     return {
         /**
