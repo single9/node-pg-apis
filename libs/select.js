@@ -1,5 +1,4 @@
 const Commons = require('./commons.js');
-const Methods = require('./methods.js');
 
 /**
  * Select
@@ -62,8 +61,44 @@ class Select extends Commons {
         return this;
     }
 
-    leftJoin () {
-        return Methods;
+    innerJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' INNER JOIN ' +t;
+
+        return this;
+    }
+
+    leftJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' LEFT JOIN ' +t;
+
+        return this;
+    }
+
+    rightJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' RIGHT JOIN ' +t;
+
+        return this;
+    }
+
+    fullJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' FULL JOIN ' +t;
+
+        return this;
+    }
+
+    on (conditions) {
+        this.queryString += ' ON ' + conditions;
+        
+        return this;
+    }
+
+    as (as) {
+        this.queryString += ' AS ' + as;
+
+        return this;
     }
 }
 

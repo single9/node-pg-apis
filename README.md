@@ -66,6 +66,19 @@ Usage
 
     await table.end();
 
+#### JOIN
+
+    const res = await table.select('log.id, log.content, src.name as source, time')
+                            .as('log')
+                            .leftJoin('Data', 'Source') // LEFT JOIN
+                            .as('src')
+                            .on('src.id = log.source')
+                            .run();
+
+    console.log(res.rows);
+
+    await table.end();
+
 ### update
 
 **Chain**
