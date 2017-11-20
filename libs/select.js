@@ -20,7 +20,7 @@ class Select extends Commons {
 
         switch (typeof(statement)) {
             case 'object':
-                this.queryString = 'SELECT ' + statement.text + ' FROM ' + table;
+                this.queryString = 'SELECT ' + valuesHelper(statement.text, statement.values) + ' FROM ' + table;
                 Object.keys(statement).forEach((val) => {
                     if (val === 'text') return;
                     this[val](statement[val]);
@@ -30,17 +30,12 @@ class Select extends Commons {
                 this.queryString = 'SELECT ' + statement + ' FROM ' + table;
                 break;
         }
-    }
 
-    values (values) {
-        this.queryValues = values;
-        return this;
-    }
-
-    where (conditions) {
-        this.queryString += ' WHERE ' + conditions;
-        
-        return this;
+        function valuesHelper (text, values) {
+            let str = this.doSpecialStrReplace(text, this.queryValues.length + 1);
+            this.queryValues = this.queryValues.concat(values);
+            return str;
+        }
     }
 
     orderBy (order) {

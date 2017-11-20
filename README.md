@@ -49,7 +49,9 @@ Usage
 
 **Chain**
 
-    const res =  await table.select('*').run();
+    const res = await table.select('*').run();
+    // or
+    const res = await table.select('*').where({id: 23}).run();
 
     console.log(res.rows);
 
@@ -57,7 +59,7 @@ Usage
 
 **Object**
 
-    const res = table.select({
+    const res = await table.select({
                     text: '*',
                     where: 'id = 23'
                 }).run();
