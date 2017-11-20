@@ -1,7 +1,16 @@
 PostgreSQL API
 ===============
 
+Installation
+------------
+
+Latest
+
     npm install --save pg-apis
+
+Preview
+
+    npm install pg-apis@next
 
 Usage
 --------
