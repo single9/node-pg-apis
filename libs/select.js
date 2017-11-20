@@ -1,4 +1,5 @@
 const Commons = require('./commons.js');
+const Methods = require('./methods.js');
 
 /**
  * Select
@@ -59,6 +60,10 @@ class Select extends Commons {
         this.queryString += ' OFFSET ' + offset;
 
         return this;
+    }
+
+    leftJoin () {
+        return Methods;
     }
 }
 
