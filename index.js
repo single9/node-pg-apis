@@ -49,7 +49,7 @@ function Methods (db, target) {
         /**
          * Transactions
          * 
-         * @param {function(Methods} fn callback
+         * @param {function(Methods)} fn callback
          */
         async transactions (fn) {
             if (!fn) 
