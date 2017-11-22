@@ -10,8 +10,9 @@ const Delete = require('./delete.js');
  * @param {DBConnector} db 
  * @param {string} target 
  */
-function Methods (db, target) {
 
+module.exports = function Methods (db, target) {
+    
     let isConnected = false;
 
     return {
@@ -80,6 +81,4 @@ function Methods (db, target) {
         update: (statement) => new Update(db, target, statement),
         delete: (statement) => new Delete(db, target, statement),
     };
-}
-
-module.exports = Methods;
+};
