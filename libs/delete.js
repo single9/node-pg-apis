@@ -32,20 +32,6 @@ class Delete extends Commons {
         }
     }
 
-    where (conditions) {
-
-        if (typeof conditions === 'object') {
-            let d = this.queryTextComposer(conditions);
-
-            this.queryString += ' WHERE (' + d.columns + ') = (' + d.argvs +')';
-            this.queryValues = this.queryValues.concat(d.values);
-        } else {
-            this.queryString += ' WHERE ' + conditions;
-        }
-        
-        return this;
-    }
-
 }
 
 module.exports = Delete;

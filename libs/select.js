@@ -20,7 +20,7 @@ class Select extends Commons {
 
         switch (typeof(statement)) {
             case 'object':
-                this.queryString = 'SELECT ' + statement.text + ' FROM ' + table;
+                this.queryString = 'SELECT ' + valuesHelper(statement.text, statement.values) + ' FROM ' + table;
                 Object.keys(statement).forEach((val) => {
                     if (val === 'text') return;
                     this[val](statement[val]);
@@ -30,17 +30,12 @@ class Select extends Commons {
                 this.queryString = 'SELECT ' + statement + ' FROM ' + table;
                 break;
         }
-    }
 
-    values (values) {
-        this.queryValues = values;
-        return this;
-    }
-
-    where (conditions) {
-        this.queryString += ' WHERE ' + conditions;
-        
-        return this;
+        function valuesHelper (text, values) {
+            let str = this.doSpecialStrReplace(text, this.queryValues.length + 1);
+            this.queryValues = this.queryValues.concat(values);
+            return str;
+        }
     }
 
     orderBy (order) {
@@ -57,6 +52,46 @@ class Select extends Commons {
 
     offset (offset) {
         this.queryString += ' OFFSET ' + offset;
+
+        return this;
+    }
+
+    innerJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' INNER JOIN ' +t;
+
+        return this;
+    }
+
+    leftJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' LEFT JOIN ' +t;
+
+        return this;
+    }
+
+    rightJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' RIGHT JOIN ' +t;
+
+        return this;
+    }
+
+    fullJoin (schema, table) {
+        let t = '"'+ schema + '"."' + table + '"';
+        this.queryString += ' FULL JOIN ' +t;
+
+        return this;
+    }
+
+    on (conditions) {
+        this.queryString += ' ON ' + conditions;
+        
+        return this;
+    }
+
+    as (as) {
+        this.queryString += ' AS ' + as;
 
         return this;
     }

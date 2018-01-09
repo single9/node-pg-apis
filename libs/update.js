@@ -95,28 +95,6 @@ class Update extends Commons {
 
         return this;
     }
-
-    /**
-     * Where conditions.
-     * 
-     * @param {string} conditions SQL conditions
-     * @memberof Update
-     */
-    where (conditions, values) {
-
-        let whereString = ' WHERE ';
-
-        if (values) {
-            whereString += this.doSpecialStrReplace(conditions, this.queryValues.length + 1);
-            this.queryValues = this.queryValues.concat(values);
-        } else {
-            whereString += conditions;
-        }
-
-        this.queryString += whereString;
-        
-        return this;
-    }
 }
 
 module.exports = Update;

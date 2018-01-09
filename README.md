@@ -58,7 +58,9 @@ Usage
 
 **Chain**
 
-    const res =  await table.select('*').run();
+    const res = await table.select('*').run();
+    // or
+    const res = await table.select('*').where({id: 23}).run();
 
     console.log(res.rows);
 
@@ -66,10 +68,23 @@ Usage
 
 **Object**
 
-    const res = table.select({
+    const res = await table.select({
                     text: '*',
                     where: 'id = 23'
                 }).run();
+
+    console.log(res.rows);
+
+    await table.end();
+
+#### JOIN
+
+    const res = await table.select('log.id, log.content, src.name as source, time')
+                            .as('log')
+                            .leftJoin('Data', 'Source') // LEFT JOIN
+                            .as('src')
+                            .on('src.id = log.source')
+                            .run();
 
     console.log(res.rows);
 
@@ -136,7 +151,10 @@ Usage
 
     const res = await table.select('id').run();
     const del = await table.delete({
-                        where: 'id = ' + res.rows[res.rowCount-1].id
+                        where: {
+                            id: res.rows[res.rowCount-1].id
+                        },
+                        returning: ['id']
                     }).run();
 
     console.log(del);

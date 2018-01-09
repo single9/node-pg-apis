@@ -74,6 +74,48 @@ class Commons {
     }
 
     /**
+     * Where
+     * 
+     * @param {string} conditions 
+     * @param {array} values 
+     * @returns this
+     * @memberof Select
+     */
+    where (conditions, values) {
+        
+        let whereString = ' WHERE ';
+        let val;
+
+        if (typeof conditions === 'object') {
+            if (this.queryValues === undefined) {
+                this.queryValues = [];
+            }
+
+            let d = this.queryTextComposer(conditions);
+
+            whereString += ' (' + d.columns + ') = (' + d.argvs +') ';
+            val = d.values;
+        } else if (values) {
+            if (this.queryValues === undefined) {
+                this.queryValues = [];
+            }
+
+            whereString += this.doSpecialStrReplace(conditions, this.queryValues.length + 1);
+            val = values;
+        } else {
+            whereString += conditions;
+        }
+
+        this.queryString += whereString;
+
+        if (val) {
+            this.queryValues = this.queryValues.concat(val);
+        }
+        
+        return this;
+    }
+
+    /**
      * Set insert returning columns.
      * 
      * @param {array} returnning 
